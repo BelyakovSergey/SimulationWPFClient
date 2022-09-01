@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <ListBox x:Name="lstListBox" FontSize="22" Margin="24,25,24,346" />
-        <Button x:Name="btnSend" FontSize="22" Width="200" Height="80" Margin="576,137,24,217" />
+        <TextBox x:Name="message" Margin="24,22,24,366" />
+        <Button x:Name="sendBtn" Content="Отправить" FontSize="22" Margin="615,84,24,293" Click="Button_Click" />
+        <ListBox x:Name="lstListBox" FontSize="22" Margin="24,169,24,25" />
     </Grid>
 </Window>

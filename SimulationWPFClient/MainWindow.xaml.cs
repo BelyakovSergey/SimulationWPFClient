@@ -21,6 +21,7 @@ namespace SimulationWPFClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        HubConnection connection;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace SimulationWPFClient
 
             try
             {
-                var connection = new HubConnectionBuilder()
+                connection = new HubConnectionBuilder()
                             .WithUrl("https://localhost:5000/chat")
                             .Build();
 
@@ -60,7 +61,7 @@ namespace SimulationWPFClient
                     await connection.StartAsync();
                     lstListBox.Items.Add("Connection started");
                     //connectButton.IsEnabled = false;
-                    btnSend.IsEnabled = true;
+                    sendBtn.IsEnabled = true;
                 }
                 catch (Exception ex)
                 {
@@ -71,6 +72,15 @@ namespace SimulationWPFClient
             {
 
                 throw ex;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string text = message.Text;
+            if (text != "")
+            {
+                connection.InvokeAsync("Send", text);
             }
         }
     }
