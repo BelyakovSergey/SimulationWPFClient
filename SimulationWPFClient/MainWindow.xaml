@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <ListBox x:Name="lstListBox" FontSize="22" Margin="24,25,24,346" />
+        <Button x:Name="btnSend" FontSize="22" Width="200" Height="80" Margin="576,137,24,217" />
     </Grid>
 </Window>

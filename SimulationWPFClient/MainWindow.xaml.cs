@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,54 @@ namespace SimulationWPFClient
         public MainWindow()
         {
             InitializeComponent();
+            InitializeSignalR();
+        }
+
+        private async void InitializeSignalR()
+        {
+
+            try
+            {
+                var connection = new HubConnectionBuilder()
+                            .WithUrl("https://localhost:5000/chat")
+                            .Build();
+
+                #region snippet_ClosedRestart
+                connection.Closed += async (error) =>
+                {
+                    await Task.Delay(new Random().Next(0, 5) * 1000);
+                    await connection.StartAsync();
+                };
+                #endregion
+
+                #region snippet_ConnectionOn
+                connection.On<string>("Send", (message) =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        lstListBox.Items.Add(message);
+                    });
+                });
+
+                #endregion
+
+                try
+                {
+                    await connection.StartAsync();
+                    lstListBox.Items.Add("Connection started");
+                    //connectButton.IsEnabled = false;
+                    btnSend.IsEnabled = true;
+                }
+                catch (Exception ex)
+                {
+                    lstListBox.Items.Add(ex.Message);
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }
