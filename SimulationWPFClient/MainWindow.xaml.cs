@@ -54,6 +54,13 @@ namespace SimulationWPFClient
                     });
                 });
 
+                connection.On<string>("Notify", (message) =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        lstListBox.Items.Add(message);
+                    });
+                });
                 #endregion
 
                 try
